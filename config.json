@@ -1,0 +1,16 @@
+{
+    "WindowProperties": {
+        "title": "Block Breaker Reloaded",
+        "width": 800,
+        "height": 600,
+        "resizable": true,
+        "visibility": true,
+        "OnClose": 3
+    },
+    "PlayerInformation": {
+        "name": "Guest",
+        "highestScore": 680,
+        "lastUpdated": 1651090717588
+    },
+    "version": 0.1
+}

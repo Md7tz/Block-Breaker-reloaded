@@ -1,4 +1,4 @@
-package GUI;
+package Graphics;
 
 import javax.swing.JFrame;
 import java.awt.Toolkit;
@@ -21,17 +21,17 @@ public class Window
         this.visibility = visibility;
         this.onCloseOperation = onCloseOperation;
 
-        setWindowProps();
+        setWindowProps(0, 0);
     }
 
     /**
      * Initializes the window frame
      */
-    public void setWindowProps() {
+    public void setWindowProps(Integer horizGap, Integer vertGap) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-        int centerX = ((int)screenSize.getWidth() - width) /2;
-        int centerY = ((int)screenSize.getHeight() - height) /2;
+        if(horizGap==null) horizGap = 0; int centerX = ((int)screenSize.getWidth() - (horizGap*2) - width) /2;
+        if(vertGap==null) vertGap   = 0; int centerY = ((int)screenSize.getHeight() - (vertGap*2) - height) /2;
 
         frame.setBounds(centerX, centerY, width, height);
         frame.setResizable(resizeable);
@@ -45,11 +45,6 @@ public class Window
     public void initManager() {
         GameManager manager = new GameManager();
         frame.add(manager);
-    }
-
-    public void setVisible(boolean value) { 
-        visibility = value;
-        frame.setVisible(visibility);
     }
 
     protected JFrame frame;

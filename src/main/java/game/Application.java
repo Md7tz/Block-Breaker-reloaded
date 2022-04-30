@@ -2,8 +2,8 @@ package game;
 
 import javax.swing.JFrame;
 
-import GUI.Window;
-import GUI.Launcher;
+import Graphics.Launcher;
+import Graphics.Window;
 
 /**
  * Entrypoint

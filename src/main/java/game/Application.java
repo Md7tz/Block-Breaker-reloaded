@@ -1,22 +1,22 @@
 package game;
 
-import java.io.FileNotFoundException;
+import javax.swing.JFrame;
 
-import game.components.Input;
-import game.components.Window;
-import game.components.GameManager;
-import game.utils.FileManager;
+import GUI.Window;
+import GUI.Launcher;
 
 /**
- * Entrypoint 
+ * Entrypoint
  */
-public final class Application 
-{
-    private static Window window;
-    public static void main( String[] args ) throws FileNotFoundException 
-    {   
-        window = new Window("Brick Breaker v0.1");
-        window.init();
-        FileManager.writeJson("config.json");
+public final class Application {
+    public static void main(String[] args) {
+        new Launcher(200, 150);
     }
+
+    public static void start() {
+        gameWindow = new Window("Brick Breaker v0.1", 800, 600, true, true, JFrame.EXIT_ON_CLOSE);
+        gameWindow.initManager();
+    }
+
+    private static Window gameWindow;
 }

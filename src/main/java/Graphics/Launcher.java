@@ -1,7 +1,7 @@
 package Graphics;
 
 import game.Application;
-import game.components.Player;
+import game.Player;
 import utils.Config;
 
 import java.io.IOException;

@@ -1,14 +1,20 @@
-package GUI;
-
-import javax.swing.*;
+package Graphics;
 
 import game.Application;
+import game.components.Player;
+import utils.Config;
 
-public class Launcher extends Window {
+import java.io.IOException;
+import org.json.simple.parser.ParseException;
 
-    public Launcher(int width, int height) {
-        super("Brick Breaker Game Launcher", width, height, false, true, JFrame.EXIT_ON_CLOSE);
-        setWindowProps();
+import javax.swing.*;
+import java.awt.Dimension;
+
+public class Launcher extends Window 
+{
+    public Launcher(Dimension dimension) {
+        super("Brick Breaker Game Launcher", dimension, false, true, JFrame.EXIT_ON_CLOSE);
+        setWindowProps(horizGap, vertGap);
         initComponents();
     }
 
@@ -16,16 +22,20 @@ public class Launcher extends Window {
         mainPanel = new javax.swing.JPanel();
         labelName = new javax.swing.JLabel();
         nickname = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        buttonLabel = new javax.swing.JLabel();
         launchButton = new javax.swing.JButton();
 
-        mainPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(borderSize, borderSize, borderSize, borderSize));
+        mainPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(vertGap, horizGap, vertGap, horizGap));
         labelName.setText("Nickname: ");
         launchButton.setText("Launch");
 
         launchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                OnLaunch(evt);
+                try {
+                    OnLaunch(evt);
+                } catch (IOException | ParseException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -36,10 +46,10 @@ public class Launcher extends Window {
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelName)
-                    .addComponent(jLabel1))
+                    .addComponent(buttonLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(nickname)
+                    .addComponent(nickname).addGap(200, 200, 200)
                 .addGap(18, 18, 18)
                 .addComponent(launchButton)
                 .addGap(0, 65, Short.MAX_VALUE))
@@ -50,10 +60,10 @@ public class Launcher extends Window {
                 .addContainerGap()
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelName)
-                    .addComponent(nickname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nickname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(buttonLabel)
                     .addComponent(launchButton))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
@@ -74,22 +84,26 @@ public class Launcher extends Window {
     
     /**
      *   This is the called to perform an action onSubmit
+     * @throws ParseException
+     * @throws IOException
      */
-    private void OnLaunch(java.awt.event.ActionEvent evt) {
+    private void OnLaunch(java.awt.event.ActionEvent evt) throws IOException, ParseException {
         String name = nickname.getText();
         if("".equals(name)){
             JOptionPane.showMessageDialog(frame, "Enter a nickname", "Missing player information", JOptionPane.ERROR_MESSAGE);
         }else{
             frame.dispose();
-            // TODO store in config
+            Player.name = name;
+            Config.writeJson(true);
             Application.start();
         }
     }
 
     private JButton launchButton;
-    private JLabel jLabel1;
+    private JLabel buttonLabel;
     private JLabel labelName;
     private JPanel mainPanel;
     private JTextField nickname;
-    private int borderSize = 4;
+    private int horizGap = 50;
+    private int vertGap = 10;
 }

@@ -1,17 +1,19 @@
 package Graphics;
 
-import java.io.FileNotFoundException;
-
-import javax.swing.*;
-
 import game.Application;
-import game.Player;
+import game.components.Player;
 import utils.Config;
 
-public class Launcher extends Window {
+import java.io.IOException;
+import org.json.simple.parser.ParseException;
 
-    public Launcher(int width, int height) {
-        super("Brick Breaker Game Launcher", width, height, false, true, JFrame.EXIT_ON_CLOSE);
+import javax.swing.*;
+import java.awt.Dimension;
+
+public class Launcher extends Window 
+{
+    public Launcher(Dimension dimension) {
+        super("Brick Breaker Game Launcher", dimension, false, true, JFrame.EXIT_ON_CLOSE);
         setWindowProps(horizGap, vertGap);
         initComponents();
     }
@@ -31,7 +33,7 @@ public class Launcher extends Window {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
                     OnLaunch(evt);
-                } catch (FileNotFoundException e) {
+                } catch (IOException | ParseException e) {
                     e.printStackTrace();
                 }
             }
@@ -82,9 +84,10 @@ public class Launcher extends Window {
     
     /**
      *   This is the called to perform an action onSubmit
-     * @throws FileNotFoundException
+     * @throws ParseException
+     * @throws IOException
      */
-    private void OnLaunch(java.awt.event.ActionEvent evt) throws FileNotFoundException {
+    private void OnLaunch(java.awt.event.ActionEvent evt) throws IOException, ParseException {
         String name = nickname.getText();
         if("".equals(name)){
             JOptionPane.showMessageDialog(frame, "Enter a nickname", "Missing player information", JOptionPane.ERROR_MESSAGE);

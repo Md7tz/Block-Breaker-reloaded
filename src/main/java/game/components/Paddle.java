@@ -1,6 +1,6 @@
 package game.components;
 
-import Graphics.Window;
+import graphics.Window;
 
 import java.awt.Point;
 import java.awt.Dimension;

@@ -1,9 +1,9 @@
 package game.components;
 
-import Graphics.Window;
-
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
+import graphics.Window;
 
 import java.awt.Graphics;   
 import java.awt.Point;
@@ -35,32 +35,48 @@ public class GameManager extends JPanel implements Input
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT)
-        movePaddle(Direction.RIGHT);
-        else if (e.getKeyCode() == KeyEvent.VK_LEFT)
-        movePaddle(Direction.LEFT);
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            movePaddle(Direction.RIGHT);
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_LEFT){
+            movePaddle(Direction.LEFT);
+        }
         
-        if (e.getKeyCode() == KeyEvent.VK_SPACE && Projectile.isIdle) {
-            ball.randomize();
+        if (e.getKeyCode() == KeyEvent.VK_SPACE 
+         || e.getKeyCode() == KeyEvent.VK_RIGHT
+         || e.getKeyCode() == KeyEvent.VK_LEFT 
+         && Projectile.isIdle) {
             isPlaying = true;
         }
+        if (e.getKeyCode() == KeyEvent.VK_SPACE && Projectile.isIdle)
+            ball.randomize();
         
         repaint();
     }
 
     @Override
-    public void keyTyped(KeyEvent e) { System.out.println("GameManager.keyTyped()"); }
+    public void keyTyped(KeyEvent e) { LOGGER.log(INFO, Character.toString(e.getKeyChar())); }
 
     @Override
-    public void keyReleased(KeyEvent e) { System.out.println("GameManager.keyReleased()"); }
+    public void keyReleased(KeyEvent e) { LOGGER.log(INFO, Character.toString(e.getKeyChar())); }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         if(isPlaying) { 
             repaint();
             ball.update();
+            if (Projectile.isIdle){
+                ball.x = paddle.x + Projectile.xOffset;
+                ball.y = paddle.y - Projectile.yOffset;
+            }
             if(ball.x > Window.dimension.width - (ball.width * 2) || ball.x <= 0) { ball.dispX = -ball.dispX; }
-            else if(ball.y <= 0 - ball.height || (ball.intersects(paddle))) ball.dispY = -ball.dispY;
+            else if (ball.y <= 0 - ball.height || (ball.intersects(paddle))) ball.dispY = -ball.dispY;
+            else if (ball.y > Window.dimension.height) {
+                Projectile.isIdle = true;
+                ball.x = paddle.x + Projectile.xOffset;
+                ball.y = paddle.y + Projectile.yOffset;
+            }
             repaint();
         }
     }

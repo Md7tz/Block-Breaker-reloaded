@@ -1,4 +1,4 @@
-package Graphics;
+package graphics;
 
 import javax.swing.JFrame;
 import java.awt.Toolkit;

@@ -1,4 +1,4 @@
-package Graphics;
+package graphics;
 
 import game.Application;
 import game.Player;

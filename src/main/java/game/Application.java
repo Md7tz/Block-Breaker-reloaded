@@ -1,14 +1,15 @@
 package game;
 
 import utils.Config;
-import Graphics.Launcher;
-import Graphics.Window;
 
 import javax.swing.JFrame;
 import java.io.IOException;
 import java.awt.Dimension;
 
 import org.json.simple.parser.ParseException;
+
+import graphics.Launcher;
+import graphics.Window;
 
 /**
  * Entrypoint

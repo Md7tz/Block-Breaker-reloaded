@@ -94,7 +94,7 @@ public final class Config
     }
 
     /**
-     * @return boolean
+     * @return String
      * @throws IOException
      * @throws org.json.simple.parser.ParseException
      */

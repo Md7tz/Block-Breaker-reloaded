@@ -12,6 +12,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
+import static utils.UtilLogging.LOGGER;
+import static java.util.logging.Level.INFO;
+
 public class GameManager extends JPanel implements Input
 {
     public GameManager() {

@@ -26,9 +26,6 @@ jobs:
     - name: Create credential keys file
       run: |
         touch ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
-        echo ls -al
-        echo ${{secrets.FIREBASE_KEYS}} >> ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
-        cat ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
     - name: Create env file
       run: |
         touch ./.env

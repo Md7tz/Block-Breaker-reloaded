@@ -1,20 +1,31 @@
 package game;
 
-import static org.junit.Assert.assertTrue;
-
+import network.Firebase;
 import org.junit.Test;
 
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+
 /**
- * Unit test for simple App.
+ * Unit test for Blockbreaker game.
  */
 public class Tester 
 {
     /**
-     * Rigorous Test :-)
+     * Test Firestore connection & adding player
+     * @throws ExecutionException
+     * @throws InterruptedException
+     * @throws IOException
+     * @throws UnsupportedOperationException
      */
     @Test
-    public void shouldAnswerWithTrue()
+    public void testFirestore() throws InterruptedException, ExecutionException, UnsupportedOperationException, IOException 
     {
-        assertTrue( true );
+        assertTrue( Firebase.initialize() );
+        assertTrue( Firebase.mock("mock-UUID") ); TimeUnit.SECONDS.sleep(2);
+        assertTrue( Firebase.undo() );
     }
 }

@@ -78,7 +78,8 @@ public class Firebase {
         LOGGER.log(Level.INFO, "Update time : " + result.get().getUpdateTime());
     }
 
-    public static boolean mock(String document) throws InterruptedException, ExecutionException {        
+    public static boolean mock(String document) throws InterruptedException, ExecutionException, FileNotFoundException, IOException, ParseException {        
+        genDocument();
         Firebase.document = document;
         DocumentReference ref = db().collection(collection).document(document);
         

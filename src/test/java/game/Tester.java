@@ -1,6 +1,8 @@
 package game;
 
 import network.Firebase;
+
+import org.json.simple.parser.ParseException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
@@ -20,9 +22,10 @@ public class Tester
      * @throws InterruptedException
      * @throws IOException
      * @throws UnsupportedOperationException
+     * @throws ParseException
      */
     @Test
-    public void testFirestore() throws InterruptedException, ExecutionException, UnsupportedOperationException, IOException 
+    public void testFirestore() throws InterruptedException, ExecutionException, UnsupportedOperationException, IOException, ParseException 
     {
         assertTrue( Firebase.initialize() );
         assertTrue( Firebase.mock("mock-UUID") ); TimeUnit.SECONDS.sleep(2);

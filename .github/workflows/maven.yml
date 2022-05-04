@@ -13,7 +13,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env: 
-      BASE_DIR: ${{secrets.BASE_DIR}}
+      BASE_DIR: ./
       GOOGLE_APPLICATION_CREDENTIALS: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
     steps:
     - uses: actions/checkout@v3
@@ -23,6 +23,18 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+    - name: Create credential keys file
+      run: |
+        touch ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
+        echo ls -al
+        echo ${{secrets.FIREBASE_KEYS}} >> ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
+        cat ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
+    - name: Create env file
+      run: |
+        touch ./.env
+        echo BASE_DIR=${{secrets.BASE_DIR}}>> ./.env
+        echo GOOGLE_APPLICATION_CREDENTIALS=${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}>> ./.env
+        cat ./.env
     - name: Test with Maven
       run: mvn test
 

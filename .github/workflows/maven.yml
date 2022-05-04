@@ -12,6 +12,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env: 
+      BASE_DIR: ${{secrets.BASE_DIR}}
+      GOOGLE_APPLICATION_CREDENTIALS: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 17

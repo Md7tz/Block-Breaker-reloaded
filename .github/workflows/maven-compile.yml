@@ -21,17 +21,20 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Create credential keys file
-      run: |
-        mkdir .keys
-        touch ./.keys/firebase-adminsdk.json
-        echo ${{secrets.FIREBASE_KEYS}}>./.keys/firebase-adminsdk.json
-        
+        run: |
+          mkdir .keys
+          touch ./.keys/firebase-adminsdk.json
+          echo ${{secrets.FIREBASE_KEYS}}>./.keys/firebase-adminsdk.json
+          ls -al
+          ls .keys
     - name: Create env file
-      run: |
-        touch .env
-        echo BASE_DIR=${{secrets.BASE_DIR}}>> ./.env
-        echo GOOGLE_APPLICATION_CREDENTIALS=./keys/firebase-adminsdk.json>> ./.env
-        cat .env
+        run: |
+          touch .env
+          echo BASE_DIR=${{secrets.BASE_DIR}}>> ./.env
+          echo GOOGLE_APPLICATION_CREDENTIALS=./keys/firebase-adminsdk.json>> ./.env
+          cat .env
+          ls -al
+        
         
     - name: Compile with Maven
       run: mvn clean install compiler:testCompile

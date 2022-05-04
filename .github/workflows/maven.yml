@@ -26,7 +26,8 @@ jobs:
     - name: Create credential keys file
       run: |
         mkdir .keys
-        touch ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
+        touch ${{secrets.BASE_DIR}}+${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
+        echo ls -la
     - name: Create env file
       run: |
         touch ./.env

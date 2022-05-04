@@ -27,7 +27,8 @@ jobs:
       run: |
         mkdir .keys
         touch ${{secrets.BASE_DIR}}+${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
-        echo ls -la
+        echo "ls -a ."
+        ls -a .
     - name: Create env file
       run: |
         touch ./.env

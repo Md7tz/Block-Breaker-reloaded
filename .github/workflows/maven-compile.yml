@@ -14,12 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+
     - name: Create credential keys file
       run: |
         mkdir .keys
@@ -27,6 +29,7 @@ jobs:
         echo ${{secrets.FIREBASE_KEYS}}>./.keys/firebase-adminsdk.json
         ls -al
         ls .keys
+        
     - name: Create env file
       run: |
         touch .env
@@ -34,7 +37,6 @@ jobs:
         echo GOOGLE_APPLICATION_CREDENTIALS=./.keys/firebase-adminsdk.json>> ./.env
         cat .env
         ls -al
-        
         
     - name: Compile with Maven
       run: mvn clean install compiler:testCompile

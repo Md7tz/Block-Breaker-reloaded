@@ -24,14 +24,12 @@ hs_err_pid*
 
 # config files
 config.json
-output.ini
-
+*.ini
 
 # Maven build files/tests
-target/*
+target
 test.txt
 
 # Secrets
 .keys
 .env
-

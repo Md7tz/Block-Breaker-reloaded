@@ -25,6 +25,7 @@ jobs:
         cache: maven
     - name: Create credential keys file
       run: |
+        mkdir .keys
         touch ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
     - name: Create env file
       run: |

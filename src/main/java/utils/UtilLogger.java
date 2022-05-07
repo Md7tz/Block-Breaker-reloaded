@@ -3,8 +3,10 @@ package utils;
 import java.util.Date;
 import java.util.logging.*;
 
-public class UtilLogging {
-  public static Logger LOGGER = Logger.getLogger(UtilLogging.class.getName());
+public class UtilLogger 
+{
+  private static Logger LOGGER = Logger.getLogger(UtilLogger.class.getName());
+
   static {
     ConsoleHandler handler = new ConsoleHandler();
     handler.setFormatter(new SimpleFormatter() {
@@ -18,7 +20,14 @@ public class UtilLogging {
         );
       }
     });
+
     LOGGER.setUseParentHandlers(false);
     LOGGER.addHandler(handler);
+  }
+
+  public static void log(Level level, String message) {
+    String env = Config.dotenv.get("APP_ENV").toString();
+    // Disable logging in production
+    if (env.equals("production") == false) LOGGER.log(level, message);
   }
 }

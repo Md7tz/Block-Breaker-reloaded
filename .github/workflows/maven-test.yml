@@ -33,6 +33,7 @@ jobs:
     - name: Create env file
       run: |
         touch .env
+        echo APP_ENV=${{secrets.APP_ENV}}>> ./.env
         echo BASE_DIR=${{secrets.BASE_DIR}}>> ./.env
         echo GOOGLE_APPLICATION_CREDENTIALS=./.keys/firebase-adminsdk.json>> ./.env
         cat .env

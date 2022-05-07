@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
-import static utils.UtilLogging.LOGGER;
+import static utils.UtilLogger.log;
 import static java.util.logging.Level.INFO;
 
 public class GameManager extends JPanel implements Input
@@ -58,10 +58,10 @@ public class GameManager extends JPanel implements Input
     }
 
     @Override
-    public void keyTyped(KeyEvent e) { LOGGER.log(INFO, Character.toString(e.getKeyChar())); }
+    public void keyTyped(KeyEvent e) { log(INFO, Character.toString(e.getKeyChar())); }
 
     @Override
-    public void keyReleased(KeyEvent e) { LOGGER.log(INFO, Character.toString(e.getKeyChar())); }
+    public void keyReleased(KeyEvent e) { log(INFO, Character.toString(e.getKeyChar())); }
 
     @Override
     public void actionPerformed(ActionEvent e) {

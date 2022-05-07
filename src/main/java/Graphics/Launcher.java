@@ -96,8 +96,7 @@ public class Launcher extends Window
             JOptionPane.showMessageDialog(frame, "Enter a nickname", "Missing player information", JOptionPane.ERROR_MESSAGE);
         } else {
             frame.dispose();
-            Firebase.initialize();
-            Firebase.uploadPlayerInfo();
+            if (Firebase.initialize()) { Firebase.uploadPlayerInfo(); }
             Application.start();
         }
     }

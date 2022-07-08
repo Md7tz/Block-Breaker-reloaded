@@ -33,3 +33,6 @@ test.txt
 # Secrets
 .keys
 .env
+
+# extra
+resources

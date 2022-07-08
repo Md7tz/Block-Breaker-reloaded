@@ -1,7 +1,9 @@
 package graphics;
 
+import static utils.Image.IMG_DIR;
 import game.Application;
 import game.Player;
+import game.Interfaces.IKeyAction;
 import network.Firebase;
 
 import java.io.IOException;
@@ -10,25 +12,86 @@ import org.json.simple.parser.ParseException;
 
 import javax.swing.*;
 import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.Graphics;
+import java.awt.Font;
+import java.awt.Color;
 
-public class Launcher extends Window 
+public class Launcher extends Window
 {
     public Launcher(Dimension dimension) {
         super("Brick Breaker Game Launcher", dimension, false, true, JFrame.EXIT_ON_CLOSE);
-        setWindowProps(horizGap, vertGap);
-        initComponents();
+        setWindowProps(horizGap, vertGap, dimension);
+        initComponents(dimension);
     }
 
-    private void initComponents() {
-        mainPanel = new javax.swing.JPanel();
-        labelName = new javax.swing.JLabel();
+    /**
+     * Centers the window
+     * 
+     * @param horizGap
+     * @param vertGap
+     * @param dimension
+     */
+    private void setWindowProps(Integer horizGap, Integer vertGap, Dimension dimension) {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        centerX = (int) (screenSize.getWidth() - (horizGap * 2) - 100 - dimension.getWidth()) / 2;
+        centerY = (int) ((screenSize.getHeight() - (vertGap * 2) - dimension.getHeight()) / 2);
+    }
+
+    private void initComponents(Dimension dimension) {
+        final ImageIcon bkg = new ImageIcon(IMG_DIR + "bkg.png");
+        final Dimension bkgSize = new Dimension(425, 110);
+        final Font font = new Font(Font.MONOSPACED, Font.BOLD, 18);
+        
+        frame.addKeyListener(new IKeyAction() {
+            @Override public void keyTyped(KeyEvent e) {}
+            @Override public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    launchButton.requestFocusInWindow();
+                    launchButton.doClick();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    System.exit(1);
+                }
+            }
+            @Override public void keyReleased(KeyEvent e) {}
+            @Override public void actionPerformed(ActionEvent e) {}
+        });
+        frame.setBounds(centerX, centerY, (int)dimension.getWidth(), (int)dimension.getHeight());
+
+        mainPanel = new javax.swing.JPanel(){
+            @Override public void paintComponent(Graphics g){
+                g.drawImage(bkg.getImage(), 0, 0, null);
+            }
+        };
+
         nickname = new javax.swing.JTextField();
+        nickname.requestFocusInWindow();
+        labelName = new javax.swing.JLabel();
         buttonLabel = new javax.swing.JLabel();
         launchButton = new javax.swing.JButton();
 
+        // Set the font 
+        nickname.setFont(font);
+        labelName.setFont(font);
+        buttonLabel.setFont(font);
+        launchButton.setFont(font);
+
+        // Set the text color
+        nickname.setForeground(Color.BLACK);
+        labelName.setForeground(Color.WHITE);
+
+        // Background jpanel integration
+        mainPanel.setPreferredSize(bkgSize);
+        mainPanel.setMinimumSize(bkgSize);
+        mainPanel.setMaximumSize(bkgSize);
+        mainPanel.setSize(bkgSize);
+
         mainPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(vertGap, horizGap, vertGap, horizGap));
-        labelName.setText("Nickname: ");
-        launchButton.setText("Launch");
+        labelName.setText("NICKNAME:");
+        launchButton.setText("  START GAME  ");
 
         launchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -50,7 +113,7 @@ public class Launcher extends Window
                     .addComponent(buttonLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(nickname).addGap(200, 200, 200)
+                    .addComponent(nickname).addGap(190, 190, 190)
                 .addGap(18, 18, 18)
                 .addComponent(launchButton)
                 .addGap(0, 65, Short.MAX_VALUE))
@@ -84,7 +147,7 @@ public class Launcher extends Window
     }
     
     /**
-     *   This is the called to perform an action onSubmit
+     * This is the called to perform an action onSubmit
      * @throws ParseException
      * @throws IOException
      * @throws ExecutionException
@@ -108,4 +171,6 @@ public class Launcher extends Window
     private JTextField nickname;
     private int horizGap = 50;
     private int vertGap = 10;
+    private int centerX;
+    private int centerY;
 }

@@ -31,6 +31,7 @@ public final class Config
     private static JSONObject json;
     private static Map<String, Object> windowProps;
     private static Map<String, Object> playerInfo;
+
     /**
      * @param fileName
      * @throws FileNotFoundException
@@ -59,7 +60,7 @@ public final class Config
      * @throws IOException
      * @throws org.json.simple.parser.ParseException
      */
-    public final static Dimension getWindowDimension() throws IOException, org.json.simple.parser.ParseException {
+    public static Dimension getWindowDimension() throws IOException, org.json.simple.parser.ParseException {
         // Parse json file
         Object obj = new JSONParser().parse(new FileReader(filename));
 
@@ -159,8 +160,10 @@ public final class Config
      * @throws ParseException
      */
     public final static Map<String, Object> playerInfo() throws FileNotFoundException, IOException, ParseException {
-        File file = new File(dotenv.get("BASE_DIR") + filename);
-        if (!file.exists()) return null;
+        File file = new File(filename);
+        // System.out.println(file.exists());
+        
+        if (file.exists() == false) return new LinkedHashMap<String, Object>();;
         
         // Parse json file
         Object obj = new JSONParser().parse(new FileReader(filename));

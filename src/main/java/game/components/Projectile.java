@@ -5,12 +5,11 @@ import java.awt.Rectangle;
 import java.awt.Point;
 import java.awt.Dimension;
 import java.io.IOException;
+import java.util.Random;
 
-import java.awt.Color;
-public class Projectile extends GameObject
-{
-    public int dispX = 1;
-    public int dispY = 1;
+public class Projectile extends GameObject {
+    public int dispX = 0;
+    public int dispY = 4;
     public final static int yOffset = 20;
     public final static int xOffset = 25;
     public static boolean isIdle = true;
@@ -19,16 +18,18 @@ public class Projectile extends GameObject
      * @param point
      * @param dimension
      */
-    Projectile(Point point, Dimension dimension) { super(point, dimension); }
+    Projectile(Point point, Dimension dimension) {
+        super(point, dimension);
+    }
 
     /**
      * Draws the ball
+     * 
      * @param g
      * @throws IOException
      */
     public void draw(Graphics g) throws IOException {
-        g.setColor(Color.RED);
-        g.drawImage(loadBufferedImage("ball.png"), x, y + width, dimension.width, dimension.height, null); 
+        g.drawImage(loadBufferedImage("ball.png"), x, y + width, dimension.width, dimension.height, null);
     }
 
     /**
@@ -37,8 +38,8 @@ public class Projectile extends GameObject
     public void randomize() {
         int max = 4;
         int min = -4;
-        dispX = (int) Math.random() * (max - min + 1) + min;
-        dispY = (int) Math.random() * ((max=-2) - min + 1) + min;
+
+        dispX = new Random().nextInt(max - min) + min;
         isIdle = false;
     }
 
@@ -46,7 +47,7 @@ public class Projectile extends GameObject
      * Updates the position of the projectile
      */
     public void update() {
-        if(isIdle == false) {
+        if (isIdle == false) {
             x += dispX;
             y += dispY;
         }
@@ -58,9 +59,9 @@ public class Projectile extends GameObject
      * their intersection is nonempty.
      *
      * @param r the specified {@code Rectangle}
-     * @return    {@code true} if the specified {@code Rectangle}
-     *            and this {@code Rectangle} intersect;
-     *            {@code false} otherwise.
+     * @return {@code true} if the specified {@code Rectangle}
+     *         and this {@code Rectangle} intersect;
+     *         {@code false} otherwise.
      */
     @Override
     public boolean intersects(Rectangle r) {
@@ -79,14 +80,41 @@ public class Projectile extends GameObject
         rh += ry;
         tw += tx;
         th += ty;
-        //      overflow || intersect
+        // overflow || intersect
         return ((rw < rx || rw > tx) &&
                 (rh < ry || rh > ty) &&
                 (tw < tx || tw > rx) &&
                 (th < ty || th > ry));
     }
 
-    // public void hit(){
-    // // TODO Auto-generated method stub
-    // }
+    /**
+     * Controls the bouncing behavior of the ball when
+     * it intersects with the paddle {@code Rectangle}
+     * 
+     * @param r is the paddle {@code Rectangle}
+     */
+    public void bounce(Rectangle r) {
+        int rw = r.width;
+        int rx = r.x;
+        int tx = this.x;
+
+        int partsNo = 3;
+        int part = rw / partsNo;
+
+        dispY = -dispY;
+
+        if ((tx < rx + part) && dispX > 0)
+            dispX = -Math.abs(dispX);
+        else if ((tx < rx + part))
+            dispX--;
+
+        if ((tx >= rx + part) && (tx <= rx + 2 * (rw / partsNo)))
+            dispX *= 0.75;
+
+        if ((tx > rx + 2 * (rw / partsNo) && dispX < 0))
+            dispX = Math.abs(dispX);
+        else if ((tx > rx + 2 * (rw / partsNo)))
+            dispX++;
+
+    }
 }
